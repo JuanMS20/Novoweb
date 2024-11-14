@@ -26,10 +26,14 @@ export function RegisterForm() {
         body: JSON.stringify(formData),
       });
 
+      if (res.status === 404) {
+        throw new Error("El servicio no está disponible (Error 404).");
+      }
+
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error);
+        throw new Error(data.error || "Error desconocido");
       }
 
       toast.success("Registro exitoso");
